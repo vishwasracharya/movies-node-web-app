@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=title%></title>
+  <%- include('includes/styles.ejs')%> 
+  <style>
+      .desc{
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .movie-img {
+        width: 70%;
+        height: 100%;
+        object-fit: cover;
+      }
+  </style>
+</head>
+<body>
+  <%- include('includes/navbar.ejs')%> 
+  <% if (movies) {%>
+    <section class="my-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1 class="text-center mb-5">Movies</h1>
+            <div class="row">
+              <% movies.forEach(movie => {%>
+                <div class="col-12 col-md-6 col-lg-3 mb-4 mx-auto mx-md-0">
+                  <a href="<%=site_url%>/movies/<%=movie._id%>" class="text-decoration-none">
+                    <div class="border-0 rounded-15 card-hover-img">
+                      <div class="p-1 d-flex align-items-center justify-content-center">
+                        <img src="<%=movie.image%>" class="img-fluid rounded-15 movie-img" alt="<%=movie.title%>" title="<%=movie.title%>">
+                      </div>
+                      <div class="p-3">
+                        <h5 class="text-dark"><%=movie.title%></h5>
+                        <p class="desc fs-smaller text-dark"><%=movie.description%></p>
+                        <a href="<%=site_url%>/movies/<%=movie._id%>" class="btn btn-primary rounded border-0 shadow lh-1">View</a>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              <%})%>
+          </div>
+        </div>
+      </div>
+    </section>
+  <% } else {%>
+    <section class="my-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-5 mx-auto text-center">
+            <h1>No Movies Available</h1>
+            <div class="d-flex align-items-center justify-content-center flex-column">
+              <img loading="eager" class="mb-3" src="<%=site_url%>/images/logo.png" width="200" height="200" alt="Logo" title="Logo">
+              <a href="<%=site_url%>/movies/add" class="mb-3 btn btn-dark lh-1 shadow border-0">Go To Add Movie</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <% } %>   
+
+  <%- include('includes/scripts.ejs')%> 
+</body>
+</html>
