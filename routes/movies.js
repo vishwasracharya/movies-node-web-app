@@ -10,9 +10,10 @@ const movieController = require('../controllers/movieController');
 
 /* Middleware */
 const addLocals = require('../middleware/addLocals');
+const authentication = require('../middleware/authentication');
 
 /* GET Routes. */
-router.get('/add', addLocals, (req, res) => {
+router.get('/add', addLocals, authentication, (req, res) => {
   res.render('movies/add', { 
     title: 'Add Movie | Movies App' 
   });
@@ -38,7 +39,7 @@ router.get('/:id', addLocals, async (req, res) => {
   }
 });
 
-router.get('/edit/:id', addLocals, async (req, res) => {
+router.get('/edit/:id', addLocals, authentication, async (req, res) => {
   const id = req.params.id;
   const movie = await movieController.getMovieById(id);
   if (movie !== null) {

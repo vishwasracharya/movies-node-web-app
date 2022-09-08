@@ -43,8 +43,10 @@
                 <p class="fs-6 text-muted mb-2"><strong>Director:</strong> <%=movie.director%> </p>
                 <p class="fs-6 text-muted mb-2"><strong>Year:</strong> <%=movie.year%> </p>
                 <p class="text-muted"><%=movie.description%></p>
+                <% if (isLoggedIn) {%>
                 <a href="<%=site_url%>/movies/edit/<%=movie._id%>" class="btn btn-primary rounded border-0 shadow lh-1">Edit</a>
                 <button class="btn btn-danger rounded border-0 shadow lh-1" onclick="handleDeleteMovie(event)">Delete</button>
+                <% } %> 
             </div>
         </div>
     </div>

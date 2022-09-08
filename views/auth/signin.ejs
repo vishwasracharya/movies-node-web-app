@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=title%></title>
+  <%- include('../includes/styles.ejs')%> 
+</head>
+<body>
+  <%- include('../includes/navbar.ejs')%> 
+
+  <section class="my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-5 mx-auto">
+                <div class="mb-4">
+                    <h1 class="text-center">LOGIN</h1>
+                    <h2 class="lead text-center text-muted">Enter Credentials</h2>
+                </div>
+                <form action="<%=site_url%>/auth/signin" method="post">
+                    <div class="form-group mb-3">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email address" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+                    </div>
+                    <% if (messages) {%>
+                        <button type="submit" class="btn btn-primary rounded border-0 shadow w-100" disabled><%= messages %></button>
+                    <% } else {%>  
+                        <button type="submit" class="btn btn-primary rounded border-0 shadow w-100">Sign in</button>
+                    <% } %>
+                </form>
+            </div>
+        </div>
+    </div>
+  </section>
+  
+  <%- include('../includes/scripts.ejs')%> 
+</body>
+</html>

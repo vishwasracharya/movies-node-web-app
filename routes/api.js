@@ -7,12 +7,13 @@ const movieController = require('../controllers/movieController');
 
 /* Middleware */
 const addLocals = require('../middleware/addLocals');
+const authentication = require('../middleware/authentication');
 
 /* POST Routes. */
-router.post('/add-movie', movieController.addMovies);
-router.post('/edit-movie/:id', movieController.editMovieById);
+router.post('/add-movie', authentication, movieController.addMovies);
+router.post('/edit-movie/:id', authentication, movieController.editMovieById);
 
 /* DELETE Routes. */
-router.delete('/delete-movie/:id', movieController.deleteMovieById);
+router.delete('/delete-movie/:id', authentication, movieController.deleteMovieById);
 
 module.exports = router;
