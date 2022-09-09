@@ -11,6 +11,7 @@ const movieController = require('../controllers/movieController');
 /* Middleware */
 const addLocals = require('../middleware/addLocals');
 const authentication = require('../middleware/authentication');
+const validateObjectId = require('../middleware/validateObjectId');
 
 /* GET Routes. */
 router.get('/add', addLocals, authentication, (req, res) => {
@@ -19,7 +20,7 @@ router.get('/add', addLocals, authentication, (req, res) => {
   });
 });
 
-router.get('/:id', addLocals, async (req, res) => {
+router.get('/:id', addLocals, validateObjectId, async (req, res) => {
   const id = req.params.id;
   const movie = await movieController.getMovieById(id);
   if (movie !== null) {
@@ -39,7 +40,7 @@ router.get('/:id', addLocals, async (req, res) => {
   }
 });
 
-router.get('/edit/:id', addLocals, authentication, async (req, res) => {
+router.get('/edit/:id', addLocals, authentication, validateObjectId, async (req, res) => {
   const id = req.params.id;
   const movie = await movieController.getMovieById(id);
   if (movie !== null) {
