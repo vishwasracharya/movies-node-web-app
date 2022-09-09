@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const session = require('express-session');
 const { flash } = require('express-flash-message');
+const compression = require('compression');
 require('dotenv').config();
 require('./utils/db');
 
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(compression());
 app.use(
   session({
     secret: process.env.FLASH_MESSAGE_SESSION_KEY,
