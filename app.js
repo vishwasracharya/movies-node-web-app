@@ -14,6 +14,7 @@ var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 var moviesRouter = require('./routes/movies');
 var authRouter = require('./routes/auth');
+var accountRouter = require('./routes/account');
 
 var app = express();
 
@@ -44,6 +45,7 @@ app.use('/', indexRouter);
 app.use('/api', apiRouter);
 app.use('/movies', moviesRouter);
 app.use('/auth', authRouter);
+app.use('/account', accountRouter);
 
 /* catch 404 and forward to error handler */
 app.use(function(req, res, next) {

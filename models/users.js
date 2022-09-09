@@ -26,11 +26,19 @@ const userSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: () => Date.now()
-    }
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    movies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'MOVIES'
+    }]
 });
 
 userSchema.methods.generateAuthToken = function() {
-    const token = jwt.sign({ _id: this._id }, process.env.JWT_PRIVATE_KEY);
+    const token = jwt.sign({ _id: this._id, firstName: this.firstName, isAdmin: this.isAdmin }, process.env.JWT_PRIVATE_KEY);
     return token;
 }
 

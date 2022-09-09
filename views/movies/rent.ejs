@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=title%></title>
+  <%- include('../includes/styles.ejs')%> 
+</head>
+<body>
+  <%- include('../includes/navbar.ejs')%> 
+
+  <section class="my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-3 mx-auto mb-3 mb-md-0">
+                <img class="img-fluid rounded-15 shadow" src="<%=movie.image%>" alt="<%=movie.title%>" title="<%=movie.title%>">
+            </div>
+            <div class="col-12 col-md-9 mx-auto mb-3 mb-md-0">
+                <h1 class="text-dark mb-3"><%=movie.title%></h1>
+                <p class="fs-6 text-muted mb-2"><strong>Rate:</strong> $<%=movie.price%>/m </p>
+                <p class="fs-6 text-muted mb-2"><strong>Available Quantity:</strong> <%=movie.quantity%> </p>  
+                <button class="btn btn-info rounded border-0 shadow lh-1" onclick="handleRentMovie(event)" <% if (movie.quantity <= 0 || rented == true) {%> disabled <% } %>>Get Movie</button>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <%- include('../includes/scripts.ejs')%>
+  <script>
+    function handleRentMovie(e) {
+        e.preventDefault();
+        const url = "<%=site_url%>/api/rent-movie/<%=movie._id%>/<%=userDetails._id%>";
+        e.target.innerHTML = `<div class="spinner-border spinner-border-sm" role="status"></div> Get Movie`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                quantity: 1,
+            })
+        })
+        .then(res => {
+            if(res.status === 200) {
+                e.target.innerHTML = `Rented`;
+                e.target.attributes.disabled = true;
+                setTimeout(() => {
+                    window.location.href = "<%=site_url%>/account/<%=userDetails._id%>";
+                }, 500);
+            }
+            if (res.status === 400 || res.status === 404) {
+                e.target.innerHTML = `Out of Stock`;
+                e.target.attributes.disabled = true;
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+  </script>
+</body>
+</html>

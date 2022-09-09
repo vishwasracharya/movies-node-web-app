@@ -1,5 +1,6 @@
 /* Models */
 const Movies = require('../models/movies');
+const Users = require('../models/users');
 
 /* POST Methods */
 const addMovies = async (req, res) => {
@@ -25,10 +26,55 @@ const editMovieById = async (req, res) => {
             rating: data.rating,
             image: data.image,
             description: data.description,
+            price: data.price,
+            quantity: data.quantity,
             updated_at: Date.now()
         };
         await Movies.findByIdAndUpdate(id, newdata);
         res.redirect(200, `${process.env.SITE_URL}/movies/${id}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const rentMovieById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const uid = req.params.uid;
+        const movie = await Movies.findById(id);
+        if (movie) {
+            const data = req.body;
+            if (movie.quantity > 0) {
+                const user = await Users.findById(uid);
+                user.movies.push(movie._id);
+                await user.save();
+                movie.quantity = movie.quantity - 1;
+                await movie.save();
+                res.status(200).send("Movie Rented Successfully");
+                return;
+            }
+            res.status(400).send("Movie Not Available");
+        } else {
+            res.status(404).send("Movie Not Found");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const returnMovieById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const uid = req.params.uid;
+        const movie = await Movies.findById(id);
+        if (movie) {
+            await Users.findOneAndUpdate({ _id: uid }, { $pull: { movies: movie._id } });
+            movie.quantity = movie.quantity + 1;
+            await movie.save();
+            res.status(200).send("Movie Returned Successfully");
+        } else {
+            res.status(404).send("Movie Not Found");
+        }
     } catch (error) {
         console.log(error);
     }
@@ -89,4 +135,6 @@ module.exports.addMovies = addMovies;
 module.exports.getAllMovies = getAllMovies;
 module.exports.getMovieById = getMovieById;
 module.exports.editMovieById = editMovieById;
+module.exports.rentMovieById = rentMovieById;
+module.exports.returnMovieById = returnMovieById;
 module.exports.deleteMovieById = deleteMovieById;

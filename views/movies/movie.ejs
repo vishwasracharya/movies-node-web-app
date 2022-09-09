@@ -45,7 +45,10 @@
                 <p class="text-muted"><%=movie.description%></p>
                 <% if (isLoggedIn) {%>
                 <a href="<%=site_url%>/movies/edit/<%=movie._id%>" class="btn btn-primary rounded border-0 shadow lh-1">Edit</a>
+                <a href="<%=site_url%>/movies/rent/<%=movie._id%>" class="btn btn-dark rounded border-0 shadow lh-1">Rent</a>
+                <% if (userDetails.isAdmin) {%>
                 <button class="btn btn-danger rounded border-0 shadow lh-1" onclick="handleDeleteMovie(event)">Delete</button>
+                <% } %> 
                 <% } %> 
             </div>
         </div>

@@ -28,6 +28,14 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    quantity: {
+        type: Number,
+        default: 10
+    },
+    price: {
+        type: Number,
+        default: 20
+    },
     created_at: {
         type: Date,
         default: () => Date.now()

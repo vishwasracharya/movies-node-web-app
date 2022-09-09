@@ -33,7 +33,7 @@ const signUpWithEmailAndPassword = async (req, res) => {
         res.redirect(302, `${process.env.SITE_URL}/auth/signup`); 
         return;
     }
-    user = new Users(_.pick(req.body, ['firstName', 'lastName', 'email', 'password']));
+    user = new Users(_.pick(req.body, ['firstName', 'lastName', 'email', 'password', 'isAdmin']));
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
