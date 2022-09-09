@@ -20,7 +20,8 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mongoose": "^6.5.4",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "redis": "^4.3.1"
   },
   "devDependencies": {
     "jest": "^29.0.2",
