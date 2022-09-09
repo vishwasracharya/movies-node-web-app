@@ -8,7 +8,7 @@ const Users = require('../models/users');
 
 /* Controllers */
 const movieController = require('../controllers/movieController');
-const decodeJwtController = require('../controllers/decodeJwtController');
+const decodeJwtController = require('../controllers/functions/decodeJwtController');
 
 /* Middleware */
 const addLocals = require('../middleware/addLocals');

@@ -1,7 +1,12 @@
+/* Modules */
 const request = require('supertest');
 const app = require('../../app');
+const Users = require('../../models/users');
+
+/* Constants */
 const SITE_URL = process.env.SITE_URL;
 
+/* Test Cases */
 describe(`GET ${SITE_URL}`, () => {
     describe(`/signout`, () => {
         it('should return a 302 response', async () => {
@@ -12,6 +17,13 @@ describe(`GET ${SITE_URL}`, () => {
 });
 
 describe(`POST ${SITE_URL}/auth`, () => {
+    beforeEach(async () => {
+    });
+
+    afterEach(async () => {
+        await Users.deleteMany({});
+    });
+
     describe(`/signup`, () => {
         it('should add a new document in DB & return a 302 response', async () => {
             const res = await request(app).post('/auth/signup').send({
