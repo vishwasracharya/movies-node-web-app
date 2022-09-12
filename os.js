@@ -4,12 +4,19 @@ const net = require('net');
 const dns = require('dns');
 const domain = require('domain');
 const child = domain.create();
+const exec = require('child_process').exec;
 
+/* =========== Scaling an Application =========== */
+exec('ls -al', (err, stdout, stderr) => {
+    if (err) return console.error(err);
+    console.log('stdout:', stdout);
+    console.log('stderr:', stderr);
+});
+
+/* =========== Operating System =========== */
 child.on('error', function(err) {
     console.log('Caught error!', err);
 });
-
-
 
 
 dns.lookup('www.google.com', (err, address, family) => {
@@ -41,9 +48,9 @@ const server = net.createServer((socket) => {
 //     console.log('opened server on', server.address());
 // });
 
-server.listen(() => {
-    console.log('opened server on', server.address());
-});
+// server.listen(() => {
+//     console.log('opened server on', server.address());
+// });
 
 // server.close();
 
