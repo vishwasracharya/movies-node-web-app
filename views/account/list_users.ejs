@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%=title%></title>
+  <%- include('../includes/styles.ejs')%> 
+
+</head>
+<body>
+  <%- include('../includes/navbar.ejs')%> 
+
+  <% if (users) {%>
+  <section class="my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-9 mx-auto">
+                <h1 class="text-center mb-5">All Users</h1>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col" class="text-center">First Name</th>
+                        <th scope="col" class="text-center">Last Name</th>
+                        <th scope="col" class="text-center">Email</th>
+                        <th scope="col" class="text-center">Created At</th>
+                        <th scope="col" class="text-center">Movies Rented</th>
+                        <th scope="col" class="text-center">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <% users.forEach((user, index) => { %>
+                      <tr>
+                        <th class="text-center"><%=index+1%></th>
+                        <td class="text-center"><%=user.firstName%></td>
+                        <td class="text-center"><%=user.lastName%></td>
+                        <td class="text-center"><%=user.email%></td>
+                        <td class="text-center"><%=user.created_at.toString().split("G")[0]%></td>
+                        <td class="text-center"><%=user.movies.length%></td>
+                        <td class="text-center">
+                          <button onclick="handleDeleteUser(event)" id="<%=user._id%>" class="btn btn-danger rounded border-0 shadow lh-1" <% if (user.isAdmin) {%> disabled <% } %> >Delete</button>
+                        </td>
+                      </tr>
+                    <% })%> 
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+  </section>
+  <% } else {%>
+    <section class="my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-6 mx-auto">
+                    <h1 class="text-center mb-5">No Users Available</h1>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img loading="eager" class="img-fluid" src="<%=site_url%>/images/profile.png" width="200" height="200" alt="Profile Image" alt="Profile Image" title="Profile Image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  <% } %>
+
+  <%- include('../includes/scripts.ejs')%> 
+
+  <script>
+    function handleDeleteUser(e) {
+      e.preventDefault();
+      let id = e.target.id;
+      let url = `<%=site_url%>/account/delete/${id}`;
+      fetch(url, {
+        method: "delete",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then(res => {
+        if (res.status === 200) {
+          window.location.href = "<%=site_url%>/account/users";
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    }
+  </script>
+</body>
+</html>
