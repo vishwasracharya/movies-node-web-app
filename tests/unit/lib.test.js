@@ -6,7 +6,10 @@ const generateRandomFirstLastName = require('../../controllers/functions/generat
 /* Constants */
 const isAuth = true, SITE_URL = process.env.SITE_URL;
 
+/* A test suite. */
 describe(`Generators`, () => {
+    /* Testing the function generateRamdomemail() to see if it returns a string and if it contains an @
+    symbol. */
     describe('Random Email', () => { 
         it('should return a string', () => {
             expect(typeof generateRamdomemail()).toBe('string');
@@ -15,11 +18,13 @@ describe(`Generators`, () => {
             expect(generateRamdomemail()).toContain('@');
         });
     });
+    /* Testing the function generateRandomPassword() to see if it returns a string. */
     describe('Random Password', () => {
         it('should return a string', () => {
             expect(typeof generateRandomPassword()).toBe('string');
         });
     });
+    /* Testing the function generateRandomFirstLastName() to see if it returns a string. */
     describe('Random First Name', () => {
         it('should return a string', () => {
             expect(typeof generateRandomFirstLastName()).toBe('string');
