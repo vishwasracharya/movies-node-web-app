@@ -8,7 +8,6 @@ const session = require('express-session');
 const { flash } = require('express-flash-message');
 const compression = require('compression');
 require('dotenv').config();
-require('./utils/db');
 
 /* Route Handler Constants */
 var indexRouter = require('./routes/index');

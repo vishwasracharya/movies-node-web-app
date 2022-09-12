@@ -5,10 +5,18 @@
  */
 
 var app = require('../app');
+var cluster = require('cluster');
 var debug = require('debug')('projects:server');
 var http = require('http');
-var cluster = require('cluster');
-var numCPUs = require('os').cpus().length;
+var numCPUs = require('os').cpus().length / 2;
+const mongoose = require('mongoose');
+let DB;
+if (process.env.ENVIRONMENT === 'testing') {
+  DB = process.env.TEST_MONGODB_URI;
+}
+if (process.env.ENVIRONMENT === 'dev' || process.env.ENVIRONMENT === 'prod') {
+  DB = process.env.MONGODB_URI;
+}
 
 /**
  * Get port from environment and store in Express.
@@ -16,40 +24,84 @@ var numCPUs = require('os').cpus().length;
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-if (process.env.ENVIRONMENT == 'prod') {
+if (process.env.environment === "prod") {
+  console.log("Total CPUs Used For Cluster Mode:", numCPUs);
   if (cluster.isMaster) {
-    console.log(`Master ${process.pid} is running`);
-
     // Fork workers.
     for (var i = 0; i < numCPUs; i++) {
       cluster.fork();
     }
 
-    cluster.on('exit', (worker, code, signal) => {
-      console.log(`worker ${worker.process.pid} died`);
+    // If a worker dies, log it to the console and start another worker.
+    cluster.on('exit', function (worker, code, signal) {
+      console.log('Worker ' + worker.process.pid + ' died.');
+      cluster.fork();
     });
+
+    // Log when a worker starts listening
+    cluster.on('listening', function (worker, address) {
+      console.log('Worker started with PID ' + worker.process.pid + '.');
+    });
+
   } else {
-    server.listen(port);
+    /**
+     * Create HTTP server.
+     */
+
+    var server = http.createServer(app);
+
+    /**
+     * Listen on provided port, on all network interfaces.
+     */
+
+    ; (async function () {
+      try {
+        mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
+          .then(() => {
+            if (process.env.ENVIRONMENT !== 'testing') {
+              console.log(`MongoDB Connected: ${process.env.ENVIRONMENT}`)
+            }
+          })
+          .catch(err => console.log(err));
+        server.listen(port);
+      } catch (err) {
+        console.log(err)
+      }
+    })()
     server.on('error', onError);
     server.on('listening', onListening);
-    console.log(`Worker ${process.pid} started`);
   }
-} else {
-  server.listen(port);
+}
+else {
+  /**
+* Create HTTP server.
+*/
+
+  var server = http.createServer(app);
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+
+  ; (async function () {
+    try {
+      mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
+        .then(() => {
+          if (process.env.ENVIRONMENT !== 'testing') {
+            console.log(`MongoDB Connected: ${process.env.ENVIRONMENT}`)
+          }
+        })
+        .catch(err => console.log(err));
+      server.listen(port);
+    } catch (err) {
+      // console.error(err);
+      console.log(err)
+    }
+  })()
   server.on('error', onError);
   server.on('listening', onListening);
 }
+// The rest of the bin/www file.....
 
 /**
  * Normalize a port into a number, string, or false.
@@ -109,5 +161,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  console.log("App Started on " +bind)
+  console.log("App Started on: " + bind)
 }
