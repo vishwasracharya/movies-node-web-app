@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "test": "jest --watchAll --verbose --coverage"
+    "test": "jest --watchAll --verbose --coverage",
+    "node:server": "nodemon ./node-server"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
