@@ -42,5 +42,20 @@ const signUpWithEmailAndPassword = async (req, res) => {
     res.cookie('token', token, { httpOnly: true }).redirect(302, `${process.env.SITE_URL}`);
 };
 
+const deleteUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = await Users.findOne({ _id: id });
+        console.log(user);
+        if (!user) return res.status(404).send('User Not Found');
+
+        await Users.findOneAndDelete({ _id: id });
+        res.status(200).send('User Deleted Successfully');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports.signInWithEmailAndPassword = signInWithEmailAndPassword;
 module.exports.signUpWithEmailAndPassword = signUpWithEmailAndPassword;
+module.exports.deleteUser = deleteUser;
