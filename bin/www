@@ -55,9 +55,7 @@ if (process.env.environment === "prod") {
       try {
         mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
           .then(() => {
-            if (process.env.ENVIRONMENT !== 'testing') {
-              console.log(`MongoDB Connected: ${process.env.ENVIRONMENT}`)
-            }
+            console.log(`MongoDB Connected: ${process.env.ENVIRONMENT}`)
           })
           .catch(err => console.log(err));
         server.listen(port);
@@ -84,9 +82,7 @@ else {
     try {
       mongoose.connect(DB, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {
-          if (process.env.ENVIRONMENT !== 'testing') {
-            console.log(`MongoDB Connected: ${process.env.ENVIRONMENT}`)
-          }
+          console.log(`MongoDB Connected: ${process.env.ENVIRONMENT}`)
         })
         .catch(err => console.log(err));
       server.listen(port);

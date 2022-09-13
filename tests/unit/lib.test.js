@@ -1,5 +1,6 @@
+require('../../utils/db');
 /* Controllers */
-const generateRamdomemail = require('../../controllers/functions/generateRamdomemail');
+const generateRandomEmail = require('../../controllers/functions/generateRandomEmail');
 const generateRandomPassword = require('../../controllers/functions/generateRandomPassword');
 const generateRandomFirstLastName = require('../../controllers/functions/generateRandomFirstLastName');
 
@@ -8,14 +9,14 @@ const isAuth = true, SITE_URL = process.env.SITE_URL;
 
 /* A test suite. */
 describe(`Generators`, () => {
-    /* Testing the function generateRamdomemail() to see if it returns a string and if it contains an @
+    /* Testing the function generateRandomEmail() to see if it returns a string and if it contains an @
     symbol. */
     describe('Random Email', () => { 
         it('should return a string', () => {
-            expect(typeof generateRamdomemail()).toBe('string');
+            expect(typeof generateRandomEmail()).toBe('string');
         });
         it('should return a string with @', () => {
-            expect(generateRamdomemail()).toContain('@');
+            expect(generateRandomEmail()).toContain('@');
         });
     });
     /* Testing the function generateRandomPassword() to see if it returns a string. */

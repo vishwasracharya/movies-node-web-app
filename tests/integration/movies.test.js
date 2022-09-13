@@ -1,3 +1,4 @@
+require('../../utils/db');
 /* Modules */
 const request = require('supertest');
 const app = require('../../app');
@@ -5,7 +6,7 @@ const Movies = require('../../models/movies');
 const Users = require('../../models/users');
 
 /* Controllers */
-const generateRamdomemail = require('../../controllers/functions/generateRamdomemail');
+const generateRandomEmail = require('../../controllers/functions/generateRandomEmail');
 const generateRandomPassword = require('../../controllers/functions/generateRandomPassword');
 const generateRandomFirstLastName = require('../../controllers/functions/generateRandomFirstLastName');
 
@@ -14,7 +15,7 @@ const isAuth = true, SITE_URL = process.env.SITE_URL;
 const TEMP_USER = {
     firstName: generateRandomFirstLastName(),
     lastName: generateRandomFirstLastName(),
-    email: generateRamdomemail(),
+    email: generateRandomEmail(),
     password: generateRandomPassword(),
 }
 const TEMP_MOVIE = {
