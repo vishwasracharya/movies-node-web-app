@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "test": "jest --watchAll --verbose --coverage"
+    "test": "jest --watchAll --verbose --coverage",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "jest": "^29.0.2",
+    "jsdoc": "^3.6.11",
     "nodemon": "^2.0.19",
     "supertest": "^6.2.4"
   }
