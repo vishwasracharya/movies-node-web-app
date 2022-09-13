@@ -1,3 +1,9 @@
+/**
+ * Decode JWT token module.
+ * @module decodeJwtController
+ * @param {string} token - JWT token
+ * @returns {object} decoded - decoded JWT token
+ */
 const jwt = require('jsonwebtoken');
 
 module.exports = (token) => {
