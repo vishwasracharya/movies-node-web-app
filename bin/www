@@ -10,12 +10,9 @@ var debug = require('debug')('projects:server');
 var http = require('http');
 var numCPUs = require('os').cpus().length / 2;
 const mongoose = require('mongoose');
-let DB;
+let DB = process.env.MONGODB_URI;
 if (process.env.ENVIRONMENT === 'testing') {
   DB = process.env.TEST_MONGODB_URI;
-}
-if (process.env.ENVIRONMENT === 'dev' || process.env.ENVIRONMENT === 'prod') {
-  DB = process.env.MONGODB_URI;
 }
 
 /**
