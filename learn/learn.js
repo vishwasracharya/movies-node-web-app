@@ -21,31 +21,31 @@ console.log("__dirname", __dirname);
 
 /* =========== File System =========== */
 // File Open
-fs.open('input.txt', 'r+', (err, fd) => {
+fs.open('./learn/input.txt', 'r+', (err, fd) => {
     if (err) return console.error(err);
     console.log('File opened successfully.', fd);
 
     // File Read
-    fs.readFile('input.txt', (err, data) => {
+    fs.readFile('./learn/input.txt', (err, data) => {
         if (err) return console.error(err);
         console.log('File read successfully.', data.toString());
     });
     console.log('This will be executed first.');
 
     // Write File
-    fs.writeFile('input.txt', 'This is a test.', (err) => {
+    fs.writeFile('./learn/input.txt', 'This is a test.', (err) => {
         if (err) return console.error(err);
         console.log('File written successfully.');
     });
 
     // Get File Information
-    fs.stat('input.txt', (err, stats) => {
+    fs.stat('./learn/input.txt', (err, stats) => {
         if (err) return console.error(err);
         console.log('File information:', stats);
     });
 
     // Truncate a File
-    fs.truncate('input.txt', 12, (err) => {
+    fs.truncate('./learn/input.txt', 12, (err) => {
         if (err) return console.error(err);
         console.log('File truncated successfully.');
     });
@@ -57,7 +57,7 @@ fs.open('input.txt', 'r+', (err, fd) => {
     });
 
     // Delete a File
-    // fs.unlink('input.txt', (err) => {
+    // fs.unlink('./learn/input.txt', (err) => {
     //     if (err) return console.error(err);
     //     console.log('File deleted successfully.');
     // });
@@ -82,10 +82,10 @@ fs.mkdir('test', (err) => {
 });
 
 /* =========== Streams =========== */
-let readerStream = fs.createReadStream('input.txt', 'utf8', (err, data) => {
+let readerStream = fs.createReadStream('./learn/input.txt', 'utf8', (err, data) => {
     if (err) { 
         console.log(err);
-        let writerStream = fs.createWriteStream('input.txt');
+        let writerStream = fs.createWriteStream('./learn/input.txt');
         writerStream.write(data, 'UTF8');
         writerStream.end();
         writerStream.on('finish', () => {
@@ -99,7 +99,7 @@ let readerStream = fs.createReadStream('input.txt', 'utf8', (err, data) => {
     else console.log(data);
 });
 
-let writerStream = fs.createWriteStream('output.txt', 'utf8', (err, data) => {
+let writerStream = fs.createWriteStream('./learn/output.txt', 'utf8', (err, data) => {
     if (err) console.log(err);
     else console.log(data);
 });
