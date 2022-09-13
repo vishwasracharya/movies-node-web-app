@@ -1,3 +1,1 @@
-module.exports = () => {
-    return Math.random().toString(36).substring(2)
-}
+module.exports = () => Math.random().toString(36).substring(2);

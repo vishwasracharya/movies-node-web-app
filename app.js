@@ -8,18 +8,17 @@ const session = require('express-session');
 const { flash } = require('express-flash-message');
 const compression = require('compression');
 require('dotenv').config();
-if (process.env.ENVIRONMENT === "testing") {
-  require('./utils/db');
-}
+
+if (process.env.ENVIRONMENT === 'testing') require('./utils/db');
 
 /* Route Handler Constants */
-var indexRouter = require('./routes/index');
-var apiRouter = require('./routes/api');
-var moviesRouter = require('./routes/movies');
-var authRouter = require('./routes/auth');
-var accountRouter = require('./routes/account');
+const indexRouter = require('./routes/index');
+const apiRouter = require('./routes/api');
+const moviesRouter = require('./routes/movies');
+const authRouter = require('./routes/auth');
+const accountRouter = require('./routes/account');
 
-var app = express();
+const app = express();
 
 /* view engine setup */
 app.set('views', path.join(__dirname, 'views'));
@@ -52,12 +51,12 @@ app.use('/auth', authRouter);
 app.use('/account', accountRouter);
 
 /* catch 404 and forward to error handler */
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 /* error handler */
-app.use(function(err, req, res, next) {
+app.use((err, req, res) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
