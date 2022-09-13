@@ -1,4 +1,3 @@
-require('../../utils/db');
 /* Controllers */
 const generateRandomEmail = require('../../controllers/functions/generateRandomEmail');
 const generateRandomPassword = require('../../controllers/functions/generateRandomPassword');

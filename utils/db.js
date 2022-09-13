@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const DB = process.env.MONGODB_URI;
+let DB = process.env.MONGODB_URI;
 
 if (process.env.ENVIRONMENT === "testing") {
   DB = process.env.TEST_MONGODB_URI;

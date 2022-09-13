@@ -8,6 +8,9 @@ const session = require('express-session');
 const { flash } = require('express-flash-message');
 const compression = require('compression');
 require('dotenv').config();
+if (process.env.ENVIRONMENT === "testing") {
+  require('./utils/db');
+}
 
 /* Route Handler Constants */
 var indexRouter = require('./routes/index');
