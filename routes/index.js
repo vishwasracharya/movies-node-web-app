@@ -1,9 +1,7 @@
 /* Modules */
-var express = require('express');
-var router = express.Router();
+const express = require('express');
 
-/* Models */
-const Movies = require('../models/movies');
+const router = express.Router();
 
 /* Controllers */
 const movieController = require('../controllers/movieController');
@@ -15,9 +13,9 @@ const authentication = require('../middleware/authentication');
 /* GET Routes. */
 router.get('/', addLocals, authentication, async (req, res) => {
   const movies = await movieController.getAllMovies();
-  res.render('index', { 
+  res.render('index', {
     title: 'Home | Movies App',
-    movies: movies
+    movies: movies,
   });
 });
 

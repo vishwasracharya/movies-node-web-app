@@ -1,12 +1,13 @@
 /* Modules */
-let events = require('events');
-let eventEmitter = new events.EventEmitter();
-let fs = require('fs');
+const events = require('events');
+const fs = require('fs');
+
+const eventEmitter = new events.EventEmitter();
 
 /* =========== Global objects =========== */
 /* Global objects are objects that are available in all modules. */
-console.log("__filename", __filename);
-console.log("__dirname", __dirname);
+console.log('__filename', __filename);
+console.log('__dirname', __dirname);
 
 // setTimeout((t) => {
 //     console.log('listnerTwo executed, With setTimeout.');
@@ -17,99 +18,108 @@ console.log("__dirname", __dirname);
 //     clearInterval(t);
 // }, 1000);
 
-
-
 /* =========== File System =========== */
 // File Open
 fs.open('./learn/input.txt', 'r+', (err, fd) => {
-    if (err) return console.error(err);
-    console.log('File opened successfully.', fd);
+  if (err) return console.error(err);
+  console.log('File opened successfully.', fd);
 
-    // File Read
-    fs.readFile('./learn/input.txt', (err, data) => {
-        if (err) return console.error(err);
-        console.log('File read successfully.', data.toString());
-    });
-    console.log('This will be executed first.');
+  // File Read
+  fs.readFile('./learn/input.txt', (e, data) => {
+    if (e) return console.error(e);
+    return console.log('File read successfully.', data.toString());
+  });
+  console.log('This will be executed first.');
 
-    // Write File
-    fs.writeFile('./learn/input.txt', 'This is a test.', (err) => {
-        if (err) return console.error(err);
-        console.log('File written successfully.');
-    });
+  // Write File
+  fs.writeFile('./learn/input.txt', 'This is a test.', (e) => {
+    if (e) return console.error(e);
+    return console.log('File written successfully.');
+  });
 
-    // Get File Information
-    fs.stat('./learn/input.txt', (err, stats) => {
-        if (err) return console.error(err);
-        console.log('File information:', stats);
-    });
+  // Get File Information
+  fs.stat('./learn/input.txt', (e, stats) => {
+    if (e) return console.error(e);
+    return console.log('File information:', stats);
+  });
 
-    // Truncate a File
-    fs.truncate('./learn/input.txt', 12, (err) => {
-        if (err) return console.error(err);
-        console.log('File truncated successfully.');
-    });
+  // Truncate a File
+  fs.truncate('./learn/input.txt', 12, (e) => {
+    if (e) return console.error(e);
+    return console.log('File truncated successfully.');
+  });
 
-    // Close File
-    fs.close(fd, (err) => {
-        if (err) return console.error(err);
-        console.log('File closed successfully.');
-    });
+  // Close File
+  fs.close(fd, (e) => {
+    if (e) return console.error(e);
+    return console.log('File closed successfully.');
+  });
 
-    // Delete a File
-    // fs.unlink('./learn/input.txt', (err) => {
-    //     if (err) return console.error(err);
-    //     console.log('File deleted successfully.');
-    // });
+  //   Delete a File
+  //   fs.unlink('./learn/input.txt', (e) => {
+  //     if (e) return console.error(e);
+  //     return console.log('File deleted successfully.');
+  //   });
+  return null;
 });
 
 // Create a Directory
 fs.mkdir('test', (err) => {
-    if (err) return console.error(err);
-    console.log('Directory created successfully.');
+  if (err) return console.error(err);
+  console.log('Directory created successfully.');
 
-    // Read a Directory
-    fs.readdir('test', (err, files) => {
-        if (err) return console.error(err);
-        console.log('Directory read successfully.', files);
+  // Read a Directory
+  fs.readdir('test', (error, files) => {
+    if (error) return console.error(error);
+    console.log('Directory read successfully.', files);
 
-        // Delete a Directory
-        fs.rmdir('test', (err) => {
-            if (err) return console.error(err);
-            console.log('Directory deleted successfully.');
-        });
+    // Delete a Directory
+    fs.rmdir('test', (e) => {
+      if (e) return console.error(e);
+      return console.log('Directory deleted successfully.');
     });
+    return null;
+  });
+  return null;
 });
 
 /* =========== Streams =========== */
-let readerStream = fs.createReadStream('./learn/input.txt', 'utf8', (err, data) => {
-    if (err) { 
-        console.log(err);
-        let writerStream = fs.createWriteStream('./learn/input.txt');
-        writerStream.write(data, 'UTF8');
-        writerStream.end();
-        writerStream.on('finish', () => {
-            console.log('Write completed.');
-        });
-        writerStream.on('error', (err) => {
-            console.log(err.stack);
-        });
-        console.log('Program Ended.')
-    }
-    else console.log(data);
-});
+const readerStream = fs.createReadStream(
+  './learn/input.txt',
+  'utf8',
+  (err, data) => {
+    if (err) {
+      console.log(err);
+      const writerStream = fs.createWriteStream('./learn/input.txt');
+      writerStream.write(data, 'UTF8');
+      writerStream.end();
+      writerStream.on('finish', () => {
+        console.log('Write completed.');
+      });
+      writerStream.on('error', (e) => {
+        console.log(e.stack);
+      });
+      console.log('Program Ended.');
+    } else console.log(data);
+  }
+);
+console.log(readerStream);
 
-let writerStream = fs.createWriteStream('./learn/output.txt', 'utf8', (err, data) => {
+const writerStream = fs.createWriteStream(
+  './learn/output.txt',
+  'utf8',
+  (err, data) => {
     if (err) console.log(err);
     else console.log(data);
-});
-writerStream.write('Hello World!', 'utf8', (err, data) => {
-    if (err) console.log(err);
-    else console.log("Data written successfully");
+  }
+);
+writerStream.write('Hello World!', 'utf8', (err) => {
+  if (err) console.log(err);
+  else console.log('Data written successfully');
 });
 writerStream.end();
 writerStream.on('finish', () => {
-    console.log('Write completed.');
+  console.log('Write completed.');
 });
 
 /* =========== Buffers =========== */
@@ -117,48 +127,48 @@ let buffer = Buffer.from('Hello', 'utf8');
 console.log(buffer.toString('base64'));
 
 buffer = Buffer.alloc(256);
-len = buffer.write("Simply Easy Learning");
-console.log("Octets written : " + len);
+const len = buffer.write('Simply Easy Learning');
+console.log(`Octets written : ${len}`);
 
 // Convert Buffer to JSON
-var json = buffer.toJSON(buffer);
+const json = buffer.toJSON(buffer);
+console.log('Buffer To JSON', json);
 
 // Concatenate two buffers
-var buffer1 = Buffer.from(('TutorialsPoint '));
-var buffer2 = Buffer.from(('Simply Easy Learning'));
-var buffer3 = Buffer.concat([buffer1, buffer2]);
-console.log("buffer3 content: " + buffer3.toString());
+const buffer1 = Buffer.from('TutorialsPoint ');
+const buffer2 = Buffer.from('Simply Easy Learning');
+const buffer3 = Buffer.concat([buffer1, buffer2]);
+console.log(`buffer3 content: ${buffer3.toString()}`);
 
-// Compare Buffers 
-var result = buffer1.compare(buffer2);
+// Compare Buffers
+const result = buffer1.compare(buffer2);
 if (result < 0) {
-    console.log(buffer1 + " comes before " + buffer2);
-} else if (result == 0) {
-    console.log(buffer1 + " is same as " + buffer2);
+  console.log(`${buffer1} comes before ${buffer2}`);
+} else if (result === 0) {
+  console.log(`${buffer1} is same as ${buffer2}`);
 } else {
-    console.log(buffer1 + " comes after " + buffer2);
+  console.log(`${buffer1} comes after ${buffer2}`);
 }
 
 // Copy Buffer
-var buffer4 = Buffer.from('ABC');
-var buffer5 = Buffer.alloc(3);
+const buffer4 = Buffer.from('ABC');
+const buffer5 = Buffer.alloc(3);
 buffer4.copy(buffer5);
-console.log("buffer5 content: " + buffer5.toString());
+console.log(`buffer5 content: ${buffer5.toString()}`);
 
 // Slice Buffer
-var buffer6 = Buffer.from('TutorialsPoint');
-var buffer7 = buffer6.slice(0, 9);
-console.log("buffer7 content: " + buffer7.toString());
+const buffer6 = Buffer.from('TutorialsPoint');
+const buffer7 = buffer6.slice(0, 9);
+console.log(`buffer7 content: ${buffer7.toString()}`);
 
 // Buffer Length
-console.log("Buffer Length: ", buffer.length);
-
+console.log('Buffer Length: ', buffer.length);
 
 /* =========== Events =========== */
 /* Defining a function. */
-var listnerOne = () => {
-    console.log('listnerOne executed.');
-}
+const listnerOne = () => {
+  console.log('listnerOne executed.');
+};
 
 /* First way to addListner to any event */
 eventEmitter.addListener('connection', listnerOne);
