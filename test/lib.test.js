@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable node/no-unpublished-require */
 /* eslint-disable no-underscore-dangle */
 const { assert } = require('chai');
 const jwt = require('jsonwebtoken');
