@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-  const { token } = req.cookies.token;
+  const { token } = req.cookies;
   if (!token) return res.redirect(302, `${process.env.SITE_URL}/auth/signup`);
 
   try {

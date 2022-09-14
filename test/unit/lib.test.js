@@ -3,10 +3,10 @@
 /* eslint-disable no-underscore-dangle */
 const { assert } = require('chai');
 const jwt = require('jsonwebtoken');
-const generateRandomFirstLastName = require('../controllers/functions/generateRandomFirstLastName');
-const generateRandomEmail = require('../controllers/functions/generateRandomEmail');
-const generateRandomPassword = require('../controllers/functions/generateRandomPassword');
-const Users = require('../models/users');
+const generateRandomFirstLastName = require('../../controllers/functions/generateRandomFirstLastName');
+const generateRandomEmail = require('../../controllers/functions/generateRandomEmail');
+const generateRandomPassword = require('../../controllers/functions/generateRandomPassword');
+const Users = require('../../models/users');
 
 const TEMP_USER = {
   firstName: generateRandomFirstLastName(),

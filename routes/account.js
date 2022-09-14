@@ -33,12 +33,12 @@ router.get(
   authentication,
   validateObjectId,
   async (req, res) => {
-    const { id } = req.params.id;
+    const { id } = req.params;
     const user = await Users.findById(id).populate('movies');
     console.log(user);
     res.render('account/profile', {
       title: 'Profile | Movies App',
-      movies: user.movies,
+      movies: user.movies ? user.movies : [],
     });
   }
 );
