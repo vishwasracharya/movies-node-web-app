@@ -1,6 +1,17 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-
+/**
+ * Users Model Schema
+ * @schema Users_Schema
+ * @property {string} firstName - required
+ * @property {string} lastName - required
+ * @property {string} email - required
+ * @property {string} password - required
+ * @property {Boolean} isAdmin - required
+ * @property {Array<ObjectId>} movies - required
+ * @property {date} created_at - default Date.now
+ * @property {date} updated_at - default Date.now
+ */
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: functions/decodeJwtController.js</title>
+    <title>JSDoc: Source: functions/generateRandomEmail.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: functions/decodeJwtController.js</h1>
+    <h1 class="page-title">Source: functions/generateRandomEmail.js</h1>
 
     
 
@@ -27,22 +27,11 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Decode JWT token module.
- * @module decodeJwtController
- * @param {string} token - JWT token
- * @returns {object} decoded - decoded JWT token
+ * Generate Random Email module
+ * @module generateRandomEmail
+ * @returns {string} - Returns a random email
  */
-const jwt = require('jsonwebtoken');
-
-module.exports = (token) => {
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
-    return decoded;
-  } catch (ex) {
-    console.log(ex);
-    return null;
-  }
-};
+module.exports = () => `${Math.random().toString(36).substring(7)}@gmail.com`;
 </code></pre>
         </article>
     </section>
