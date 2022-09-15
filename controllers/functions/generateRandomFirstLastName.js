@@ -1,3 +1,8 @@
+/**
+ * Generates a random first name and last name
+ * @module generateRandomFirstLastName
+ * @returns {string} - Returns a random first name
+ */
 module.exports = () => {
   const firstNames = [
     'John',
