@@ -20,10 +20,35 @@ npm install
 npm run dev
 ```
 
+## Environment Variables
+`ENVIRONMENT`
+
+`SITE_URL`
+
+`MONGODB_URI`
+
+`FLASH_MESSAGE_SESSION_KEY`
+
+`JWT_PRIVATE_KEY`
+
+`REDIS_HOST`
+
+`REDIS_PORT`
+
+`TEST_MONGODB_URI`
+
+## Documentation
+`JSDOC`
+
+Link: https://github.com/vishwasracharya/movies-node-web-app/tree/master/docs
+
 ## External Libraries Used
 - `BOOTSTRAP` for website structure and basic design, Using `NPM`.
 
 ## Framework Used
 - `EJS` for View Engine
 - `EXPRESS` for easier coding.
-- `MONGOOSE` fro Database
+- `MONGOOSE` for Database
+- `JEST` for Testing
+- `CHAI` for Testing
+- `MOCHA` for Testing
