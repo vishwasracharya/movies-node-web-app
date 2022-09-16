@@ -1,0 +1,21 @@
+{
+	"name": "server",
+	"version": "1.0",
+	"author": "",
+	"description": "",
+	"company": "",
+	"copyright": "",
+	"website": "",
+	"package": null,
+	"startup": "server.js",
+	"execute": null,
+	"extract": false,
+	"output": "server.jx",
+	"files": [
+		"server.js"
+	],
+	"assets": [],
+	"preInstall": null,
+	"library": true,
+	"fs_reach_sources": true
+}
