@@ -7,6 +7,7 @@ const logger = require('morgan');
 const session = require('express-session');
 const { flash } = require('express-flash-message');
 const compression = require('compression');
+const winston = require('winston');
 require('dotenv').config();
 
 if (process.env.ENVIRONMENT === 'testing') require('./utils/db');
@@ -49,6 +50,26 @@ app.use('/api', apiRouter);
 app.use('/movies', moviesRouter);
 app.use('/auth', authRouter);
 app.use('/account', accountRouter);
+
+/* Logging */
+const wlogger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
+wlogger.add(
+  new winston.transports.Console({
+    format: winston.format.simple(),
+  })
+);
+app.use((err, req, res, next) => {
+  wlogger.error(err.message);
+  next(err);
+});
 
 /* catch 404 and forward to error handler */
 app.use((req, res, next) => {
