@@ -20,6 +20,6 @@ The system continues to operate despite an arbitrary number of messages being dr
 
 A system can only have two of the three.
 
-- CA - Weak consistency, high availability
+- CA - Strong consistency, high availability
 - CP - Strong consistency, low availability
 - AP - Weak consistency, high availability
