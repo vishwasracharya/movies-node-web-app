@@ -23,3 +23,11 @@ A system can only have two of the three.
 - CA - Strong consistency, high availability
 - CP - Strong consistency, low availability
 - AP - Weak consistency, high availability
+
+## Key-Value pair storage
+
+A NoSQL database that stores data in key-value pairs. The key is used to retrieve the value. The value can be any type of data, including a document, a list, or a set.
+
+E.g: name: "John", age: 30
+
+> where name is the key and "John" is the value.
