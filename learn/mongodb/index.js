@@ -1,30 +1,70 @@
-const { MongoClient } = require('mongodb');
+const { db, connect, client, close } = require('./db');
 
-let mClient = null;
-async function getcollection(client, collection) {
-  const result = await client
-    .db('moviesdb')
-    .collection(collection)
-    .find({})
-    .toArray();
-  return result;
+/* Read Operations */
+async function find() {
+  await connect();
+  const generals = db().collection('generals');
+  const general = await generals.find().toArray();
+  console.log(general);
+  await close();
 }
-
-async function main() {
-  const uri = process.env.MONGODB_URI;
-  const client = new MongoClient(uri);
-
-  try {
-    mClient = await client.connect();
-    return mClient;
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+/* Create Operations */
+async function insertOne() {
+  await connect();
+  const generals = db().collection('generals');
+  const general = await generals.insertOne({
+    name: 'The Godfather',
+  });
+  console.log(general);
+  await close();
 }
-
-async function test() {
-  const client = await main();
-  const result = await getcollection(client, 'generals');
-  console.log('getcollection:', result);
+async function insertMany() {
+  await connect();
+  const generals = db().collection('generals');
+  const general = await generals.insertMany([
+    {
+      name: 'The Godfather: Part II',
+    },
+    {
+      name: 'The Godfather: Part III',
+    },
+  ]);
+  console.log(general);
+  await close();
+}
+/* Update Operations */
+async function updateOne() {
+  await connect();
+  const generals = db().collection('generals');
+  const general = await generals.updateOne(
+    { name: 'The Godfather' },
+    { $set: { name: 'The Godfather: Part I' } }
+  );
+  console.log(general);
+  await close();
+}
+async function updateMany() {
+  await connect();
+  const generals = db().collection('generals');
+  const general = await generals.updateMany(
+    { name: 'The Godfather: Part II' },
+    { $set: { name: 'The Godfather: Part II' } }
+  );
+  console.log(general);
+  await close();
+}
+/* Delete Operations */
+async function deleteOne() {
+  await connect();
+  const generals = db().collection('generals');
+  const general = await generals.deleteOne({ name: 'The Godfather: Part I' });
+  console.log(general);
+  await close();
+}
+async function deleteMany() {
+  await connect();
+  const generals = db().collection('generals');
+  const general = await generals.deleteMany({ name: 'The Godfather: Part I' });
+  console.log(general);
+  await close();
 }

@@ -7,7 +7,7 @@ module.exports = {
   db: () => db,
   client: () => client,
   connect: async () => {
-    client = MongoClient(process.env.MONGODB_URI, {
+    client = new MongoClient(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
