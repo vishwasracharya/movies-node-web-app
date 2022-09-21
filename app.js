@@ -8,7 +8,11 @@ const session = require('express-session');
 const { flash } = require('express-flash-message');
 const compression = require('compression');
 const winston = require('winston');
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 require('dotenv').config();
+
+const options = require('./config/swaggerOptions');
 
 if (process.env.ENVIRONMENT === 'testing') require('./utils/db');
 
@@ -18,6 +22,8 @@ const apiRouter = require('./routes/api');
 const moviesRouter = require('./routes/movies');
 const authRouter = require('./routes/auth');
 const accountRouter = require('./routes/account');
+
+const specs = swaggerJsDoc(options);
 
 const app = express();
 
@@ -50,6 +56,7 @@ app.use('/api', apiRouter);
 app.use('/movies', moviesRouter);
 app.use('/auth', authRouter);
 app.use('/account', accountRouter);
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
 
 /* Logging */
 const wlogger = winston.createLogger({
