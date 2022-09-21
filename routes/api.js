@@ -13,6 +13,20 @@ const validateObjectId = require('../middleware/validateObjectId');
 if (process.env.ENVIRONMENT !== 'testing') {
   router.use(authentication);
 }
+/* GET Routes. */
+router.get('/all-movies', authentication, async (req, res) => {
+  const movies = await movieController.getAllMovies();
+  res.send(movies);
+});
+router.get('/movie/:id', validateObjectId, authentication, async (req, res) => {
+  const { id } = req.params;
+  const movie = await movieController.getMovieById(id);
+  if (movie !== null) {
+    res.send(movie);
+  } else {
+    res.status(404).send('Movie Not Found');
+  }
+});
 
 /* POST Routes. */
 router.post('/add-movie', movieController.addMovies);
