@@ -51,7 +51,17 @@ router.get('/signout', addLocals, async (req, res) => {
  *    summary: Sign In
  *    description: Sign In
  *    operationId: signInWithEmailAndPassword
- *    parameters: [ { name: email, in: x-www-form-urlencoded, required: true, type: string }, { name: password, in: x-www-form-urlencoded, required: true, type: string } ]
+ *    requestBody:
+ *      content:
+ *        application/json:
+ *         schema:
+ *          $ref: '#/components/schemas/User_SignIn'
+ *        application/x-www-form-urlencoded:
+ *          schema:
+ *            $ref: '#/components/schemas/User_SignIn'
+ *        application/xml:
+ *          schema:
+ *            $ref: '#/components/schemas/User_SignIn'
  *    responses:
  *      '302':
  *        description: User Signed In Successfully OR Redirect to login page if not logged in OR Redirect to signup page if user does not exist

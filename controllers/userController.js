@@ -12,6 +12,7 @@ const Users = require('../models/users');
 
 /* POST Methods */
 const signInWithEmailAndPassword = async (req, res) => {
+  console.log(req.body);
   const user = await Users.findOne({ email: req.body.email });
   if (!user) {
     await req.flash('info', "User Doesn't Exist");
