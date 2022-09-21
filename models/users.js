@@ -12,6 +12,38 @@ const jwt = require('jsonwebtoken');
  * @property {date} created_at - default Date.now
  * @property {date} updated_at - default Date.now
  */
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   Users:
+ *    type: object
+ *    required:
+ *     - firstName
+ *     - lastName
+ *     - email
+ *     - password
+ *    properties:
+ *     firstName:
+ *      type: string
+ *      description: The first name of the user
+ *     lastName:
+ *      type: string
+ *      description: The last name of the user
+ *     email:
+ *      type: string
+ *      description: The email of the user
+ *     password:
+ *      type: string
+ *      description: The password of the user (hashed)
+ *    example:
+ *     firstName: John
+ *     lastName: Doe
+ *     email: johndoe@mail.com
+ *     password: 123456
+ */
+
 const userSchema = new mongoose.Schema({
   firstName: {
     type: String,

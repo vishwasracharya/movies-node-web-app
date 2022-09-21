@@ -15,6 +15,69 @@ const mongoose = require('mongoose');
  * @property {date} created_at - default Date.now
  * @property {date} updated_at - default Date.now
  */
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *   Movie:
+ *    type: object
+ *    required:
+ *     - title
+ *     - rating
+ *     - genre
+ *     - director
+ *     - year
+ *     - image
+ *     - description
+ *    properties:
+ *     title:
+ *      type: string
+ *      description: The title of the movie
+ *     rating:
+ *      type: number
+ *      description: The rating of the movie
+ *     genre:
+ *      type: string
+ *      description: The genre of the movie
+ *     director:
+ *      type: string
+ *      description: The director of the movie
+ *     year:
+ *      type: number
+ *      description: The year of the movie
+ *     image:
+ *      type: string
+ *      description: The image of the movie
+ *     description:
+ *      type: string
+ *      description: The description of the movie
+ *     quantity:
+ *      type: number
+ *      description: The quantity of the movie
+ *      default: 10
+ *     price:
+ *      type: number
+ *      description: The price of the movie
+ *      default: 20
+ *     createdAt:
+ *      type: string
+ *      format: date-time
+ *      description: The date the movie was created
+ *     updatedAt:
+ *      type: string
+ *      format: date-time
+ *      description: The date the movie was updated
+ *    example:
+ *      title: The Godfather
+ *      rating: 9.2
+ *      genre: Crime, Drama
+ *      director: Francis Ford Coppola
+ *      year: 1972
+ *      image: https://image.tmdb.org/t/p/w500/rPdtLWNsZmAtoZl9PK7S2wE3qiS.jpg
+ *      description: The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.
+ */
+
 const movieSchema = new mongoose.Schema({
   title: {
     type: String,

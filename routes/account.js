@@ -15,6 +15,21 @@ const authentication = require('../middleware/authentication');
 const validateObjectId = require('../middleware/validateObjectId');
 
 /* GET Routes. */
+/**
+ * @swagger
+ * /account/users:
+ *  get:
+ *    tags: [Users]
+ *    summary: Get All Users
+ *    description: This can only be accessed by admin users.
+ *    responses:
+ *      '200':
+ *        description: A rendered page with all users
+ *      '302':
+ *        description: Redirect to login page if not logged in
+ *      '400':
+ *        description: Invalid Token
+ */
 router.get('/users', addLocals, authentication, async (req, res) => {
   if (req.user.isAdmin) {
     const users = await Users.find();
@@ -27,6 +42,24 @@ router.get('/users', addLocals, authentication, async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * /account/{id}:
+ *  get:
+ *    tags: [Users]
+ *    summary: Get User By Id
+ *    description: This can only be done by the logged in user.
+ *    parameters: [ { name: id, in: path, required: true, type: string } ]
+ *    responses:
+ *      '200':
+ *        description: A user with all the rented movies
+ *      '302':
+ *        description: Redirect to login page if not logged in
+ *      '400':
+ *        description: Invalid Token
+ *      '404':
+ *        description: Invalid ID
+ */
 router.get(
   '/:id',
   addLocals,
@@ -44,6 +77,23 @@ router.get(
 );
 
 /* DELETE Route */
+/**
+ * @swagger
+ * /account/delete/{id}:
+ *  delete:
+ *    tags: [Users]
+ *    summary: Delete a user by id
+ *    description: This can only be accessed by admin.
+ *    operationId: deleteUser
+ *    parameters: [ { name: id, in: path, required: true, type: string } ]
+ *    responses:
+ *      '200':
+ *        description: User Deleted Successfully
+ *      '302':
+ *        description: Redirect to login page if not logged in
+ *      '404':
+ *        description: User Not Found or Invalid ID
+ */
 router.delete('/delete/:id', userController.deleteUser);
 
 module.exports = router;
