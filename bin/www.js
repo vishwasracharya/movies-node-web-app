@@ -11,7 +11,7 @@ var http = require('http');
 var numCPUs = require('os').cpus().length / 2;
 const mongoose = require('mongoose');
 let DB = process.env.MONGODB_URI;
-if (process.env.ENVIRONMENT === 'testing') {
+if (process.env.ENVIRONMENT === 'testing' || process.env.ENVIRONMENT === "ci") {
   DB = process.env.TEST_MONGODB_URI;
 }
 
@@ -21,7 +21,7 @@ if (process.env.ENVIRONMENT === 'testing') {
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-if (process.env.ENVIRONMENT === "prod") {
+if (process.env.ENVIRONMENT === "prod" || process.env.ENVIRONMENT === "ci") {
   console.log("Total CPUs Used For Cluster Mode:", numCPUs);
   if (cluster.isMaster) {
     // Fork workers.
