@@ -55,7 +55,7 @@ API Docs: https://movies-node-web-app.herokuapp.com/docs
 
 ## External Libraries Used
 
-- `BOOTSTRAP` for website structure and basic design, Using `NPM`.
+- `BOOTSTRAP` for website structure and basic design.
 
 ## Framework Used
 
