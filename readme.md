@@ -51,6 +51,8 @@ npm run dev
 
 Link: https://github.com/vishwasracharya/movies-node-web-app/tree/master/docs
 
+`Swagger`
+
 API Docs: https://movies-node-web-app.herokuapp.com/docs
 
 ## External Libraries Used
