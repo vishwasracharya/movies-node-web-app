@@ -21,7 +21,7 @@ if (process.env.ENVIRONMENT === 'testing') {
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-if (process.env.environment === "prod") {
+if (process.env.ENVIRONMENT === "prod") {
   console.log("Total CPUs Used For Cluster Mode:", numCPUs);
   if (cluster.isMaster) {
     // Fork workers.
