@@ -10,6 +10,7 @@ const compression = require('compression');
 const winston = require('winston');
 const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const cors = require('cors');
 require('dotenv').config();
 
 const options = require('./config/swaggerOptions');
@@ -32,6 +33,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 /* Middleware */
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
