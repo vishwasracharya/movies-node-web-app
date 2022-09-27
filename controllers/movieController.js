@@ -12,10 +12,12 @@ const Users = require('../models/users');
  */
 const addMovies = async (req, res) => {
   try {
+    console.log(req.body);
     const data = req.body;
     const movie = new Movies(data);
     await movie.save();
-    res.redirect(200, process.env.SITE_URL);
+    res.status(200).send({ error: false, message: 'Movie Added Successfully' });
+    // res.redirect(200, process.env.SITE_URL);
   } catch (error) {
     console.log(error);
   }
@@ -44,7 +46,8 @@ const editMovieById = async (req, res) => {
       updated_at: Date.now(),
     };
     await Movies.findByIdAndUpdate(id, newdata);
-    res.redirect(200, `${process.env.SITE_URL}/movies/${id}`);
+    // res.status(200).send('Movie Updated Successfully');
+    res.redirect(200, `/movies/${id}`);
   } catch (error) {
     console.log(error);
   }

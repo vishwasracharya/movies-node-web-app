@@ -5,15 +5,20 @@ const router = express.Router();
 
 /* Controllers */
 const movieController = require('../controllers/movieController');
+const userController = require('../controllers/userController');
 
 /* Middleware */
 const authentication = require('../middleware/authentication');
 const validateObjectId = require('../middleware/validateObjectId');
 
 if (process.env.ENVIRONMENT !== 'testing') {
-  router.use(authentication);
+  // router.use(authentication);
 }
 /* GET Routes. */
+
+router.get('/all-users', userController.getAllUsers);
+router.get('/user/:id', validateObjectId, userController.getUserById);
+
 /**
  * @swagger
  * /api/all-movies:
@@ -29,7 +34,7 @@ if (process.env.ENVIRONMENT !== 'testing') {
  *      '400':
  *        description: Invalid Token
  */
-router.get('/all-movies', authentication, async (req, res) => {
+router.get('/all-movies', async (req, res) => {
   const movies = await movieController.getAllMovies();
   res.send(movies);
 });
@@ -52,7 +57,7 @@ router.get('/all-movies', authentication, async (req, res) => {
  *      '404':
  *        description: Invalid ID
  */
-router.get('/movie/:id', validateObjectId, authentication, async (req, res) => {
+router.get('/movie/:id', validateObjectId, async (req, res) => {
   const { id } = req.params;
   const movie = await movieController.getMovieById(id);
   if (movie !== null) {

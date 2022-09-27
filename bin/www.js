@@ -19,7 +19,7 @@ if (process.env.ENVIRONMENT === 'testing' || process.env.ENVIRONMENT === "ci") {
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 if (process.env.ENVIRONMENT === "prod" || process.env.ENVIRONMENT === "ci") {
   console.log("Total CPUs Used For Cluster Mode:", numCPUs);

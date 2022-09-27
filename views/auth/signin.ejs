@@ -18,7 +18,7 @@
                     <h1 class="text-center">LOGIN</h1>
                     <h2 class="lead text-center text-muted">Enter Credentials</h2>
                 </div>
-                <form action="<%=site_url%>/auth/signin" method="post">
+                <form action="<%=site_url%>/auth/signin" method="post" onsubmit="handleFormSubmit(event)">
                     <div class="form-group mb-3">
                         <label for="email">Email address</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email address" required>
@@ -39,5 +39,31 @@
   </section>
   
   <%- include('../includes/scripts.ejs')%> 
+  <script>
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const data = { email, password };
+        fetch('<%=site_url%>/auth/signin', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+            if (!data.error) {
+                window.location.href = '<%=site_url%>/';
+            } else {
+                window.location.href = '<%=site_url%>/auth/signin';
+            }
+            })
+            .catch((error) => {
+            console.error('Error:', error);
+            });
+    }
+  </script>
 </body>
 </html>

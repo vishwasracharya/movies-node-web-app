@@ -30,9 +30,12 @@ const validateObjectId = require('../middleware/validateObjectId');
  *      '400':
  *        description: Invalid Token
  */
+
 router.get('/users', addLocals, authentication, async (req, res) => {
+  console.log('req.user', req.user);
   if (req.user.isAdmin) {
     const users = await Users.find();
+    // res.status(200).send(users);
     res.render('account/list_users', {
       title: 'Profile | Movies App',
       users,
@@ -69,6 +72,7 @@ router.get(
     const { id } = req.params;
     const user = await Users.findById(id).populate('movies');
     console.log(user);
+    // return res.status(200).send(user);
     res.render('account/profile', {
       title: 'Profile | Movies App',
       movies: user.movies ? user.movies : [],
