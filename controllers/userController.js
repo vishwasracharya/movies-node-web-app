@@ -123,7 +123,66 @@ const getUserById = async (req, res) => {
     const { id } = req.params;
     const user = await Users.findOne({ _id: id }).populate('movies');
     if (!user) return res.status(404).send('User Not Found');
-    return res.status(200).send(user);
+    return res
+      .status(200)
+      .send({ user, movies: user.movies, moviesCount: user.movies.length });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Internal Server Error');
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await Users.findOne({ _id: id });
+    if (!user)
+      return res.status(404).send({ error: true, message: 'User Not Found' });
+    const updatedUser = await Users.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+        },
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .send({ message: 'User Updated Successfully', updatedUser });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Internal Server Error');
+  }
+};
+
+const updatePassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await Users.findOne({ _id: id });
+    if (!user)
+      return res.status(404).send({ error: true, message: 'User Not Found' });
+    const validPassword = await bcrypt.compare(
+      req.body.oldPassword,
+      user.password
+    );
+    if (!validPassword)
+      return res.status(400).send({ error: true, message: 'Invalid Password' });
+    const salt = await bcrypt.genSalt(10);
+    const newPassword = await bcrypt.hash(req.body.newPassword, salt);
+    const updatedUser = await Users.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          password: newPassword,
+        },
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .send({ message: 'Password Updated Successfully', updatedUser });
   } catch (error) {
     console.log(error);
     return res.status(500).send('Internal Server Error');
@@ -135,3 +194,5 @@ module.exports.signUpWithEmailAndPassword = signUpWithEmailAndPassword;
 module.exports.deleteUser = deleteUser;
 module.exports.getAllUsers = getAllUsers;
 module.exports.getUserById = getUserById;
+module.exports.updateUser = updateUser;
+module.exports.updatePassword = updatePassword;

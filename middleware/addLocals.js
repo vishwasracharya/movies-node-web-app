@@ -5,6 +5,7 @@ function getPathFromUrl(url) {
 }
 
 module.exports = (req, res, next) => {
+  res.locals.token = req.cookies.token;
   res.locals.userDetails = req.cookies.token
     ? jwt.verify(req.cookies.token, process.env.JWT_PRIVATE_KEY)
     : null;
