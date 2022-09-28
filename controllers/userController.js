@@ -6,6 +6,7 @@
 /* Modules */
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
 
 /* Models */
 const Users = require('../models/users');
@@ -14,6 +15,16 @@ const decodeJwtController = require('./functions/decodeJwtController');
 
 /* POST Methods */
 const signInWithEmailAndPassword = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const errData = errors.array()[0];
+    await req.flash('info', errData.msg);
+    return res.status(400).json({
+      error: true,
+      message: errData.msg,
+    });
+  }
+
   const user = await Users.findOne({ email: req.body.email });
   if (!user) {
     await req.flash('info', "User Doesn't Exist");
@@ -40,6 +51,18 @@ const signInWithEmailAndPassword = async (req, res) => {
 };
 
 const signUpWithEmailAndPassword = async (req, res) => {
+  const errors = validationResult(req);
+  console.log(errors);
+  if (!errors.isEmpty()) {
+    const errData = errors.array()[0];
+    console.log(errData.value);
+    await req.flash('info', errData.msg);
+    return res.status(400).json({
+      error: true,
+      message: errData.msg,
+    });
+  }
+
   let user = await Users.findOne({ email: req.body.email });
   if (user) {
     await req.flash('info', 'User Already Registered');
