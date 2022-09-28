@@ -96,7 +96,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {
-                        alert(data.error);
+                        alert(data.message);
                     } else {
                         window.location.href = "<%=site_url%>";
                     }

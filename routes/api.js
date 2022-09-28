@@ -1,5 +1,6 @@
 /* Modules */
 const express = require('express');
+const { body } = require('express-validator');
 
 const router = express.Router();
 
@@ -8,7 +9,9 @@ const movieController = require('../controllers/movieController');
 const userController = require('../controllers/userController');
 
 /* Middleware */
-const authentication = require('../middleware/authentication');
+// const authentication = require('../middleware/authentication');
+const apiAuth = require('../middleware/apiAuth');
+const adminAuth = require('../middleware/adminAuth');
 const validateObjectId = require('../middleware/validateObjectId');
 
 if (process.env.ENVIRONMENT !== 'testing') {
@@ -16,8 +19,14 @@ if (process.env.ENVIRONMENT !== 'testing') {
 }
 /* GET Routes. */
 
-router.get('/all-users', userController.getAllUsers);
-router.get('/user/:id', validateObjectId, userController.getUserById);
+router.get('/all-users', apiAuth, userController.getAllUsers);
+router.get('/user/:id', apiAuth, validateObjectId, userController.getUserById);
+router.get(
+  '/user/profile/:id',
+  apiAuth,
+  validateObjectId,
+  userController.getUserById
+);
 
 /**
  * @swagger
@@ -34,7 +43,7 @@ router.get('/user/:id', validateObjectId, userController.getUserById);
  *      '400':
  *        description: Invalid Token
  */
-router.get('/all-movies', async (req, res) => {
+router.get('/all-movies', apiAuth, async (req, res) => {
   const movies = await movieController.getAllMovies();
   res.send(movies);
 });
@@ -57,7 +66,7 @@ router.get('/all-movies', async (req, res) => {
  *      '404':
  *        description: Invalid ID
  */
-router.get('/movie/:id', validateObjectId, async (req, res) => {
+router.get('/movie/:id', apiAuth, validateObjectId, async (req, res) => {
   const { id } = req.params;
   const movie = await movieController.getMovieById(id);
   if (movie !== null) {
@@ -94,7 +103,33 @@ router.get('/movie/:id', validateObjectId, async (req, res) => {
  *      '302':
  *        description: Redirect to login page if not logged in
  */
-router.post('/add-movie', movieController.addMovies);
+router.post(
+  '/add-movie',
+  apiAuth,
+  body('title')
+    .isLength({ min: 3 })
+    .withMessage('Title must be at least 3 characters long'),
+  body('genre')
+    .isLength({ min: 3 })
+    .withMessage('Genre must be at least 3 character long'),
+  body('year')
+    .isLength({ min: 1 })
+    .isNumeric()
+    .withMessage('Year must be a number'),
+  body('rating')
+    .isLength({ min: 1, max: 5 })
+    .isNumeric()
+    .withMessage('Rating must be a number'),
+  body('director')
+    .isLength({ min: 3 })
+    .withMessage('Director must be at least 3 characters long'),
+  body('image')
+    .isLength({ min: 1 })
+    .isURL()
+    .withMessage('Image must be a valid URL'),
+  body('description').isLength({ min: 1 }),
+  movieController.addMovies
+);
 
 /**
  * @swagger
@@ -122,7 +157,12 @@ router.post('/add-movie', movieController.addMovies);
  *      '302':
  *        description: Redirect to login page if not logged in
  */
-router.post('/edit-movie/:id', validateObjectId, movieController.editMovieById);
+router.post(
+  '/edit-movie/:id',
+  apiAuth,
+  validateObjectId,
+  movieController.editMovieById
+);
 
 /**
  * @swagger
@@ -145,6 +185,7 @@ router.post('/edit-movie/:id', validateObjectId, movieController.editMovieById);
  */
 router.post(
   '/rent-movie/:id/:uid',
+  apiAuth,
   validateObjectId,
   movieController.rentMovieById
 );
@@ -168,6 +209,7 @@ router.post(
  */
 router.post(
   '/return-movie/:id/:uid',
+  apiAuth,
   validateObjectId,
   movieController.returnMovieById
 );
@@ -192,8 +234,33 @@ router.post(
  */
 router.delete(
   '/delete-movie/:id',
+  apiAuth,
+  adminAuth,
   validateObjectId,
   movieController.deleteMovieById
+);
+
+router.put(
+  '/user/:id',
+  apiAuth,
+  validateObjectId,
+  body('firstName')
+    .isLength({ min: 3 })
+    .withMessage('First Name must be at least 3 characters long'),
+  body('lastName')
+    .isLength({ min: 3 })
+    .withMessage('Last name must be at least 3 characters long'),
+  userController.updateUser
+);
+
+router.put(
+  '/user/password/:id',
+  apiAuth,
+  validateObjectId,
+  body('newPassword')
+    .isLength({ min: 6 })
+    .withMessage('Password must be at least 6 characters long'),
+  userController.updatePassword
 );
 
 module.exports = router;

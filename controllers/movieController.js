@@ -1,4 +1,6 @@
 /* eslint-disable no-underscore-dangle */
+const { validationResult } = require('express-validator');
+
 /* Models */
 const Movies = require('../models/movies');
 const Users = require('../models/users');
@@ -13,13 +15,30 @@ const Users = require('../models/users');
 const addMovies = async (req, res) => {
   try {
     console.log(req.body);
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+      const errData = errors.array()[0];
+      console.log(errData.value);
+      await req.flash('info', errData.msg);
+      return res.status(400).json({
+        error: true,
+        message: errData.msg,
+      });
+    }
     const data = req.body;
     const movie = new Movies(data);
     await movie.save();
-    res.status(200).send({ error: false, message: 'Movie Added Successfully' });
+    return res
+      .status(200)
+      .send({ error: false, message: 'Movie Added Successfully' });
     // res.redirect(200, process.env.SITE_URL);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      error: true,
+      message: 'Internal Server Error',
+    });
   }
 };
 

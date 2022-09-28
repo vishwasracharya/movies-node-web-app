@@ -1,5 +1,6 @@
 /* Modules */
 const express = require('express');
+const { body } = require('express-validator');
 
 const router = express.Router();
 
@@ -66,7 +67,14 @@ router.get('/signout', addLocals, async (req, res) => {
  *      '302':
  *        description: User Signed In Successfully OR Redirect to login page if not logged in OR Redirect to signup page if user does not exist
  */
-router.post('/signin', userController.signInWithEmailAndPassword);
+router.post(
+  '/signin',
+  body('email').isEmail().withMessage('Invalid Email'),
+  body('password')
+    .isLength({ min: 5 })
+    .withMessage('Password must be at least 5 chars long'),
+  userController.signInWithEmailAndPassword
+);
 
 /**
  * @swagger
@@ -92,6 +100,19 @@ router.post('/signin', userController.signInWithEmailAndPassword);
  *      '302':
  *        description: User Signed Up Successfully OR Redirect to login page if not logged in
  */
-router.post('/signup', userController.signUpWithEmailAndPassword);
+router.post(
+  '/signup',
+  body('firstName')
+    .isLength({ min: 3 })
+    .withMessage('First Name must be at least 3 chars long'),
+  body('lastName')
+    .isLength({ min: 3 })
+    .withMessage('Last Name must be at least 3 chars long'),
+  body('email').isEmail().withMessage('Invalid Email'),
+  body('password')
+    .isLength({ min: 5 })
+    .withMessage('Password must be at least 5 chars long'),
+  userController.signUpWithEmailAndPassword
+);
 
 module.exports = router;
