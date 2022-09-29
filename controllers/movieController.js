@@ -50,6 +50,15 @@ const addMovies = async (req, res) => {
  */
 const editMovieById = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errData = errors.array()[0];
+      await req.flash('info', errData.msg);
+      return res.status(400).json({
+        error: true,
+        message: errData.msg,
+      });
+    }
     const { id } = req.params;
     const data = req.body;
     const newdata = {
@@ -66,9 +75,13 @@ const editMovieById = async (req, res) => {
     };
     await Movies.findByIdAndUpdate(id, newdata);
     // res.status(200).send('Movie Updated Successfully');
-    res.redirect(200, `/movies/${id}`);
+    return res.redirect(200, `/movies/${id}`);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      error: true,
+      message: 'Internal Server Error',
+    });
   }
 };
 

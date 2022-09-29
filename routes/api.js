@@ -1,6 +1,6 @@
 /* Modules */
 const express = require('express');
-const { body } = require('express-validator');
+const { body, checkSchema, validationResult } = require('express-validator');
 
 const router = express.Router();
 
@@ -161,6 +161,77 @@ router.post(
   '/edit-movie/:id',
   apiAuth,
   validateObjectId,
+  checkSchema({
+    title: {
+      isLength: {
+        errorMessage: 'Title must be at least 3 characters long',
+        options: { min: 3 },
+      },
+    },
+    genre: {
+      isLength: {
+        errorMessage: 'Genre must be at least 3 character long',
+        options: { min: 3 },
+      },
+    },
+    year: {
+      isLength: {
+        errorMessage: 'Year must be a number',
+        options: { min: 1 },
+      },
+      isNumeric: {
+        errorMessage: 'Year must be a number',
+      },
+    },
+    rating: {
+      isLength: {
+        errorMessage: 'Rating must be a number',
+        options: { min: 1, max: 5 },
+      },
+      isNumeric: {
+        errorMessage: 'Rating must be a number',
+      },
+    },
+    director: {
+      isLength: {
+        errorMessage: 'Director must be at least 3 characters long',
+        options: { min: 3 },
+      },
+    },
+    image: {
+      isLength: {
+        errorMessage: 'Image must be a valid URL',
+        options: { min: 1 },
+      },
+      isURL: {
+        errorMessage: 'Image must be a valid URL',
+      },
+    },
+    description: {
+      isLength: {
+        errorMessage: 'Description must be at least 1 character long',
+        options: { min: 1 },
+      },
+    },
+    price: {
+      isLength: {
+        errorMessage: 'Price must be a number',
+        options: { min: 1 },
+      },
+      isNumeric: {
+        errorMessage: 'Price must be a number',
+      },
+    },
+    quantity: {
+      isLength: {
+        errorMessage: 'Quantity must be a number',
+        options: { min: 1 },
+      },
+      isNumeric: {
+        errorMessage: 'Quantity must be a number',
+      },
+    },
+  }),
   movieController.editMovieById
 );
 
@@ -261,6 +332,35 @@ router.put(
     .isLength({ min: 6 })
     .withMessage('Password must be at least 6 characters long'),
   userController.updatePassword
+);
+
+router.put(
+  '/user/role/:id',
+  checkSchema({
+    id: {
+      in: ['params'],
+      isMongoId: true,
+      errorMessage: 'Invalid ID',
+    },
+    role: {
+      in: ['body'],
+      isString: true,
+      isIn: {
+        options: [['admin', 'user']],
+        errorMessage: 'Role must be admin or user',
+      },
+      errorMessage: 'Role must be admin or user',
+    },
+  }),
+  (req, res) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    return res.status(200).json({ message: 'Role Updated Successfully' });
+  }
 );
 
 module.exports = router;
